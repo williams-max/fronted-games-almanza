@@ -6,6 +6,7 @@
 # herramientas 
  - next
  - typscript
+ - node 18.19.0
 
  # ejecutar
  - npm install
