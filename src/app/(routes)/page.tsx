@@ -17,7 +17,7 @@ import ReactFlow, {
 
 import "reactflow/dist/style.css";
 
-import { TextUpdaterNode ,TextDemoNode } from "./components/customNode";
+import { TextUpdaterNode, TextDemoNode } from "./components/customNode";
 import { ContextMenu } from "./components/contextMenu";
 
 import { useInputNodeStore } from "@/store/nodes-store";
@@ -107,7 +107,7 @@ export default function Home() {
   };
 
   // in order to add new nodes, we need to add them to the nodeTypes object
-  const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode , textDemo: TextDemoNode }), []);
+  const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode, textDemo: TextDemoNode }), []);
 
   // open node context menu
   const onNodeContextMenu = useCallback(
