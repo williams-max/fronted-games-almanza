@@ -41,7 +41,7 @@ export function TextDemoNode() {
   const [showColorPicker, setShowColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores
   const [showTextColorPicker, setShowTextColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores para el texto
 
-  const onChange = useCallback((e) => {
+  const onChange = useCallback((e: any) => {
     setText(e.target.value);
   }, []);
 
