@@ -57,7 +57,7 @@ export function TextDemoNode() {
 
   return (
     <>
-      <div style={{ border: '2px solid #0064A5', borderRadius: '8px', padding: '0px', margin: '0px', width:'100%', height:'100%' }}>
+      <div style={{ border: '2px solid #0064A5', borderRadius: '8px', padding: '0px', margin: '0px', width: '100%', height: '100%' }}>
         <TextareaAutosize
           id="text"
           name="text"
@@ -76,9 +76,9 @@ export function TextDemoNode() {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         />
+        <Handle type="target" position={Position.Bottom} id="input_target" />
+        <Handle type="source" position={Position.Top} id="input_source" />
       </div>
-      <Handle type="target" position={Position.Bottom} id="input_target" />
-      <Handle type="source" position={Position.Top} id="input_source" />
       <button
         style={{
           fontSize: '20px',
@@ -88,7 +88,9 @@ export function TextDemoNode() {
           lineHeight: '1',
           cursor: 'pointer',
           backgroundColor: 'transparent',
-          color: '#0064A5'
+          color: '#0064A5',
+          position: 'absolute',
+          top:'-23px'
         }}
         onClick={() => setShowColorPicker(!showColorPicker)}
       >
