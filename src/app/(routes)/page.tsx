@@ -171,7 +171,7 @@ export default function Home() {
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
 
   return (
-    <div className="flex flex-col items-start justify-center">
+    <div className="flex flex-col items-start justify-center" style={{ backgroundColor: '#203E52' }}>
       <div className="w-full realtive h-[100vh]">
         <div className="absolute z-10 flex top-5 left-5 items-center gap-x-3 my-3">
           <Button onClick={() => addNewNode({ type: "textUpdater" })}>
