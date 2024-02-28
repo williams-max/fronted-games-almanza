@@ -187,6 +187,11 @@ export default function Home() {
           >
             Add new node
           </Button>
+          <Button onClick={() => {
+            console.log('diagra actual  ', nodes)
+          }}>
+            Guardar 
+          </Button>
         </div>
         <ReactFlow
           ref={ref}

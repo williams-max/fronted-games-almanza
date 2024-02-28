@@ -46,7 +46,7 @@ export function TextDemoNode() {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '200px', height: '100px' }}>
+    <>
       <TextareaAutosize
         id="text"
         name="text"
@@ -69,7 +69,9 @@ export function TextDemoNode() {
       />
       <Handle type="target" position={Position.Bottom} id="input_target" />
       <Handle type="source" position={Position.Top} id="input_source" />
-    </div>
+      <button style={{fontSize:'7px' , margin: '0px', padding: '0px', border:'none', lineHeight: '1', cursor: 'pointer' , backgroundColor: 'red'
+    }}>Move</button>
+    </>
   );
 }
 
