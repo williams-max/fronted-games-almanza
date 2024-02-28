@@ -115,7 +115,7 @@ export function TextDemoNode() {
           color: '#0064A5',
           position: 'absolute',
           top:'-23px',
-          left: '40px' // Ajuste de posición del botón de cambio de color de texto
+          left: '40px' // Ajuste de posición del botón de cambio de color de texto PL
         }}
         onClick={() => setShowTextColorPicker(!showTextColorPicker)} // Mostrar la paleta de colores para el texto
       >
