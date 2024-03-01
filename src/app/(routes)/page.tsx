@@ -22,6 +22,8 @@ import { TextUpdaterNode, TextDemoNode } from "./components/customNode";
 import { ContextMenu } from "./components/contextMenu";
 
 import { useInputNodeStore } from "@/store/nodes-store";
+import DataNodes from './DataNodes.json'
+import DataEdges from './DataEdges.json'
 
 let id = 0;
 const getId = (type: string) => `${type}_node_${id++}`;
@@ -43,13 +45,13 @@ export default function Home() {
   // function to add new node
   const addNewNode = useCallback(
     ({ type, label }: { type: string; label?: string }) => {
-    console.log('ttpo ', type)
-      console.log('label ', label)
       setNodes((nds) => [
         ...nds,
         {
           id: getId(type),
-          data: { label: label ? label : `${type} node` , register, control , getValues , setValue : setValue},
+          backgroundColor: '#0064A5',
+          textColor: '#ffffff',
+          data: { content: '' , methods : {register, control , getValues , setValue : setValue}},
           position: { x: 0, y: 0 },
           type: type,
         },
@@ -58,9 +60,36 @@ export default function Home() {
     [setNodes]
   );
 
-  useEffect ( () => {
-    setValue('nodes', nodes)
-  },[nodes])
+ useEffect ( () => {
+    
+    console.log('data nodes', DataNodes)
+    console.log('data edges', DataEdges)
+    if(DataNodes && DataEdges){
+     const tempNodes = DataNodes.map((objeto: any) => {
+      if (objeto.hasOwnProperty('data')) {
+        return {
+          ...objeto,
+          data: {
+            ...objeto.data,
+            methods: {
+              register,
+              control,
+              getValues,
+              setValue
+            }
+          }
+        };
+      }
+      return objeto;
+    });
+      console.log('temp ', tempNodes)
+      setNodes(tempNodes)
+      setEdges(DataEdges)
+    setValue('nodes',DataNodes)
+    setValue('edges',DataEdges)
+    }
+  },[]) 
+
 
   // function that's called each time when you make connections
   const onConnect = useCallback(
@@ -178,6 +207,20 @@ export default function Home() {
   // for closing the context menu
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
 
+
+  function descargarJSON(data: any) {
+    const jsonString = JSON.stringify(data);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'data.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="flex flex-col items-start justify-center" style={{ backgroundColor: '#203E52' }}>
       <div className="w-full realtive h-[100vh]">
@@ -199,7 +242,11 @@ export default function Home() {
           }}>
             Guardar 
           </Button>
-          <Button onClick={() => console.log(getValues())}>Guardar informacion</Button>
+          <Button onClick={() => { 
+           //  setValue('nodes',nodes)
+           //  setValue('edges',edges)
+            //descargarJSON(getValues('nodes'))
+            console.log(getValues())}}>Guardar informacion</Button>
         </div>
         <ReactFlow
           ref={ref}

@@ -1,8 +1,7 @@
 import { useInputNodeStore } from "@/store/nodes-store";
-import { ChangeEvent, useCallback, useState, useRef, useEffect } from "react";
+import { ChangeEvent, useCallback, useState, useRef } from "react";
 import { Handle, Position } from "reactflow";
-// import TextareaAutosize from 'react-textarea-autosize';
-import TextareaAutosize from 'react-autosize-textarea';
+import TextareaAutosize from 'react-textarea-autosize';
 import { ChromePicker } from 'react-color'; // Importa ChromePicker de react-color
 // import PaletteIcon from '@mui/icons-material/Palette'; // Importa el icono de paleta de colores de Material Icons
 import ColorLensIcon from '@mui/icons-material/ColorLens';
@@ -43,14 +42,7 @@ export function TextDemoNode(props: any) {
   const [textColor, setTextColor] = useState('#ffffff');
   const [showColorPicker, setShowColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores
   const [showTextColorPicker, setShowTextColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores para el texto
-  /// const textareaRef = useRef(null); 
-  
-  const handleResize = useCallback((e) => {
 
-  console.log('with', e.target.clientWidth)
-   // e.target.clientHeight
- 
-  }, []);
 
   const handleMouseEnter = useCallback(() => {
     setIsResizing(true);
@@ -72,14 +64,7 @@ export function TextDemoNode(props: any) {
 
   const { control, nameRegister, register, getValues , setValue } = props.data.methods
   const { id } = props
-  //console.log('propiedades',props)
-
-  const valores = () => {
-
-  }
-  useEffect ( () => {
-    setValue(id,props.data.content)
-  },[])
+  console.log('propiedades',props)
 
   return (
     <>
@@ -92,7 +77,6 @@ export function TextDemoNode(props: any) {
             <TextareaAutosize
               placeholder="Text..."
               {...field}
-              onResize={e =>  console.log(e)}
               onChange={(e) => {
                 field.onChange((e.target.value))
                 console.log('print form nodes ',getValues('nodes'))
@@ -184,7 +168,6 @@ export function TextDemoNode(props: any) {
           <ChromePicker color={textColor} onChange={handleTextColorChange} />
         </div>
       )}
-      <button onClick={() => valores()}> print valores</button>
     </>
   );
 }

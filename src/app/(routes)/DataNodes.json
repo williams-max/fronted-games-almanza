@@ -1,0 +1,44 @@
+[
+    {
+        "id": "textDemo_node_0",
+        "backgroundColor": "#0064A5",
+        "textColor": "#ffffff",
+        "data": {
+            "content": "hola"
+        },
+        "position": {
+            "x": -173,
+            "y": -168
+        },
+        "type": "textDemo",
+        "width": 220,
+        "height": 271,
+        "selected": false,
+        "positionAbsolute": {
+            "x": -173,
+            "y": -168
+        },
+        "dragging": false
+    },
+    {
+        "id": "textDemo_node_2",
+        "backgroundColor": "#0064A5",
+        "textColor": "#ffffff",
+        "data": {
+            "content": "como estas"
+        },
+        "position": {
+            "x": -152,
+            "y": 33.5
+        },
+        "type": "textDemo",
+        "width": 211,
+        "height": 87,
+        "selected": false,
+        "positionAbsolute": {
+            "x": -152,
+            "y": 33.5
+        },
+        "dragging": false
+    }
+]
