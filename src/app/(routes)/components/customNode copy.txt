@@ -6,8 +6,6 @@ import { ChromePicker } from 'react-color'; // Importa ChromePicker de react-col
 // import PaletteIcon from '@mui/icons-material/Palette'; // Importa el icono de paleta de colores de Material Icons
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import ColorizeIcon from '@mui/icons-material/Colorize';
-import { Controller, useForm } from "react-hook-form";
-
 
 
 export function TextUpdaterNode() {
@@ -63,66 +61,28 @@ export function TextDemoNode(props: any) {
   const handleTextColorChange = (color: any) => {
     setTextColor(color.hex);
   };
-  const { control, nameRegister, register, getValues , setValue } = props.data
-  const { id } = props
 
   return (
     <>
       <div style={{ border: '2px solid #0064A5', borderRadius: '8px', padding: '0px', margin: '0px', width: '100%', height: '100%' }}>
-        <Controller
-          name={id}
-          render={({ field }: any) => (
-            // Cambiamos el input por un textarea
-
-            <TextareaAutosize
-              placeholder="Text..."
-              {...field}
-              onChange={(e) => {
-                field.onChange((e.target.value))
-                const nodesTemp = getValues('nodes')
-                // Suponiendo que tienes tu array llamado `miArray` y el id que estás buscando es "textDemo_node_0"
-                const idABuscar = "textDemo_node_0";
-                // Utiliza map para recorrer el array y actualizar el objeto si el id coincide
-                const nuevoArray = nodesTemp.map((objeto: any) => {
-                  // Comprueba si el id del objeto es igual al id que estás buscando
-                  if (objeto.id === id) {
-                    // Si coincide, actualiza la data del objeto
-                    return {
-                      ...objeto, // Mantén todas las propiedades originales
-                      data: { // Actualiza la propiedad 'data' como desees
-                        // Aquí puedes modificar la data existente o agregar nuevas propiedades
-                        // Por ejemplo, agreguemos una nueva propiedad 'nuevaPropiedad' con un nuevo valor
-                        ...objeto.data,
-                        contenido: e.target.value
-                      }
-                    };
-                  } else {
-                    // Si el id no coincide, simplemente devuelve el objeto sin cambios
-                    return objeto;
-                  }
-                });
-
-                console.log('nuevo arrat' , nuevoArray)
-                setValue('nodes',nuevoArray)
-
-                console.log(getValues('nodes'))
-              }}
-              className={isResizing ? "nodrag" : ""}
-              style={{
-                width: '100%',
-                padding: '8px',
-                borderRadius: '5px',
-                backgroundColor: backgroundColor,
-                color: textColor, // Aplica el color de texto seleccionado
-                resize: 'both'
-              }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            />
-          )}
-          control={control}
+        <TextareaAutosize
+          id="text"
+          name="text"
+          placeholder="Text..."
+          value={text}
+          onChange={onChange}
+          className={isResizing ? "nodrag" : ""}
+          style={{
+            width: '100%',
+            padding: '8px',
+            borderRadius: '5px',
+            backgroundColor: backgroundColor,
+            color: textColor, // Aplica el color de texto seleccionado
+            resize: 'both'
+          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         />
-
         <Handle type="target" position={Position.Bottom} id="input_target" />
         <Handle type="source" position={Position.Top} id="input_source" />
       </div>
@@ -137,12 +97,12 @@ export function TextDemoNode(props: any) {
           backgroundColor: 'transparent',
           color: '#0064A5',
           position: 'absolute',
-          top: '-23px',
+          top:'-23px',
           left: '10px' // Ajuste de posición del botón de la paleta de colores
         }}
         onClick={() => setShowColorPicker(!showColorPicker)}
       >
-        <ColorLensIcon sx={{ color: 'white' }} />
+        <ColorLensIcon sx= {{ color: 'white'}}/>
       </button>
       <button
         style={{
@@ -155,12 +115,12 @@ export function TextDemoNode(props: any) {
           backgroundColor: 'transparent',
           color: '#0064A5',
           position: 'absolute',
-          top: '-23px',
+          top:'-23px',
           left: '40px' // Ajuste de posición del botón de cambio de color de texto PL
         }}
         onClick={() => setShowTextColorPicker(!showTextColorPicker)} // Mostrar la paleta de colores para el texto
       >
-        <ColorizeIcon sx={{ color: 'white' }} />
+        <ColorizeIcon sx= {{ color: 'white'}}/>
       </button>
       {showColorPicker && (
         <div style={{ position: 'absolute', zIndex: 2, resize: 'block' }} className={"nodrag"}>

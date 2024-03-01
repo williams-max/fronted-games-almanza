@@ -1,6 +1,7 @@
 "use client";
 
-import { MouseEvent, useCallback, useMemo, useRef, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 import { Button } from "@nextui-org/react";
 import ReactFlow, {
@@ -26,8 +27,11 @@ let id = 0;
 const getId = (type: string) => `${type}_node_${id++}`;
 
 export default function Home() {
+ 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const { formState, handleSubmit, control, register, getValues, setValue, unregister, reset } = useForm();
+   
 
   // store handling for input nodes
   const { text } = useInputNodeStore();
@@ -39,13 +43,13 @@ export default function Home() {
   // function to add new node
   const addNewNode = useCallback(
     ({ type, label }: { type: string; label?: string }) => {
-      console.log('ttpo ', type)
+    console.log('ttpo ', type)
       console.log('label ', label)
       setNodes((nds) => [
         ...nds,
         {
           id: getId(type),
-          data: { label: label ? label : `${type} node` },
+          data: { label: label ? label : `${type} node` , register, control , getValues , setValue : setValue},
           position: { x: 0, y: 0 },
           type: type,
         },
@@ -53,6 +57,10 @@ export default function Home() {
     },
     [setNodes]
   );
+
+  useEffect ( () => {
+    setValue('nodes', nodes)
+  },[nodes])
 
   // function that's called each time when you make connections
   const onConnect = useCallback(
@@ -180,8 +188,7 @@ export default function Home() {
           <Button
             onClick={() =>
               addNewNode({
-                type: "textDemo",
-                label: "Hola como estas",
+                type: "textDemo"
               })
             }
           >
@@ -192,6 +199,7 @@ export default function Home() {
           }}>
             Guardar 
           </Button>
+          <Button onClick={() => console.log(getValues())}>Guardar informacion</Button>
         </div>
         <ReactFlow
           ref={ref}
