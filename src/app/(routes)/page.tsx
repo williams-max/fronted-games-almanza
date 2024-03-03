@@ -325,6 +325,7 @@ export default function DiagramaRender() {
           onNodeContextMenu={onNodeContextMenu}
           onEdgeContextMenu={onEdgeContextMenu}
           onPaneContextMenu={onContextMenu}
+          minZoom = {0.05}
           fitView
         >
           <Background />
