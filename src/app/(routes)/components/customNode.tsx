@@ -44,7 +44,7 @@ export function NodeCentral(props: any) {
   const [showColorPicker, setShowColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores
   const [showTextColorPicker, setShowTextColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores para el texto
   /// const textareaRef = useRef(null); 
-  const textAreaRef = useRef(null);
+  const textAreaRef = useRef<any>(null);
 
   const handleMouseEnter = useCallback(() => {
     setIsResizing(true);
@@ -97,10 +97,8 @@ export function NodeCentral(props: any) {
               placeholder="Text..."
               {...field}
               ref= {textAreaRef}
-              onResize={e =>  console.log(e)}
               onChange={(e) => {
                 field.onChange((e.target.value))
-                console.log('print form nodes ',getValues('nodes'))
                 const nodesTemp = getValues('nodes')
                 // Suponiendo que tienes tu array llamado `miArray` y el id que estás buscando es "textDemo_node_0"
                 // Utiliza map para recorrer el array y actualizar el objeto si el id coincide
@@ -112,8 +110,8 @@ export function NodeCentral(props: any) {
                       data: { // Actualiza la propiedad 'data' como desees
                         ...objeto.data,
                         content: e.target.value,
-                        width: `${textAreaRef.current.clientWidth}px`, // Accessing width
-                        height: `${textAreaRef.current.clientHeight}px`, // Accessing height
+                        width: textAreaRef?.current?.clientWidth ? `${textAreaRef.current.clientWidth}px` : '100px', // Accessing width
+                        height: textAreaRef?.current?.clientHeight ? `${textAreaRef.current.clientHeight}px` : '100px', // Accessing height
                         fondoColor : backgroundColor , 
                         textoColor : textColor
                       }
@@ -123,9 +121,6 @@ export function NodeCentral(props: any) {
                   }
                 });
                 setValue('nodes',nuevoArray)
-                console.log('valor de array ', nuevoArray)
-                console.log(getValues('nodes'))
-                console.log('----------------------------')
               }}
               className={isResizing ? "nodrag" : ""}
               style={{
@@ -205,7 +200,7 @@ export function NodeSuperior(props: any) {
   const [showColorPicker, setShowColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores
   const [showTextColorPicker, setShowTextColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores para el texto
   /// const textareaRef = useRef(null); 
-  const textAreaRef = useRef(null);
+  const textAreaRef = useRef<any>(null);
 
   const handleMouseEnter = useCallback(() => {
     setIsResizing(true);
@@ -258,10 +253,8 @@ export function NodeSuperior(props: any) {
               placeholder="Text..."
               {...field}
               ref= {textAreaRef}
-              onResize={e =>  console.log(e)}
               onChange={(e) => {
                 field.onChange((e.target.value))
-                console.log('print form nodes ',getValues('nodes'))
                 const nodesTemp = getValues('nodes')
                 // Suponiendo que tienes tu array llamado `miArray` y el id que estás buscando es "textDemo_node_0"
                 // Utiliza map para recorrer el array y actualizar el objeto si el id coincide
@@ -273,8 +266,8 @@ export function NodeSuperior(props: any) {
                       data: { // Actualiza la propiedad 'data' como desees
                         ...objeto.data,
                         content: e.target.value,
-                        width: `${textAreaRef.current.clientWidth}px`, // Accessing width
-                        height: `${textAreaRef.current.clientHeight}px`, // Accessing height
+                        width: textAreaRef?.current?.clientWidth ? `${textAreaRef.current.clientWidth}px` : '100px', // Accessing width
+                        height: textAreaRef?.current?.clientHeight ? `${textAreaRef.current.clientHeight}px` : '100px', // Accessing height
                         fondoColor : backgroundColor , 
                         textoColor : textColor
                       }
@@ -284,9 +277,6 @@ export function NodeSuperior(props: any) {
                   }
                 });
                 setValue('nodes',nuevoArray)
-                console.log('valor de array ', nuevoArray)
-                console.log(getValues('nodes'))
-                console.log('----------------------------')
               }}
               className={isResizing ? "nodrag" : ""}
               style={{
@@ -366,7 +356,7 @@ export function NodeInferior(props: any) {
   const [showColorPicker, setShowColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores
   const [showTextColorPicker, setShowTextColorPicker] = useState(false); // Estado para mostrar/ocultar la paleta de colores para el texto
   /// const textareaRef = useRef(null); 
-  const textAreaRef = useRef(null);
+  const textAreaRef = useRef<any>(null);
 
   const handleMouseEnter = useCallback(() => {
     setIsResizing(true);
@@ -419,10 +409,8 @@ export function NodeInferior(props: any) {
               placeholder="Text..."
               {...field}
               ref= {textAreaRef}
-              onResize={e =>  console.log(e)}
               onChange={(e) => {
                 field.onChange((e.target.value))
-                console.log('print form nodes ',getValues('nodes'))
                 const nodesTemp = getValues('nodes')
                 // Suponiendo que tienes tu array llamado `miArray` y el id que estás buscando es "textDemo_node_0"
                 // Utiliza map para recorrer el array y actualizar el objeto si el id coincide
@@ -434,8 +422,8 @@ export function NodeInferior(props: any) {
                       data: { // Actualiza la propiedad 'data' como desees
                         ...objeto.data,
                         content: e.target.value,
-                        width: `${textAreaRef.current.clientWidth}px`, // Accessing width
-                        height: `${textAreaRef.current.clientHeight}px`, // Accessing height
+                        width: textAreaRef?.current?.clientWidth ? `${textAreaRef.current.clientWidth}px` : '100px', // Accessing width
+                        height: textAreaRef?.current?.clientHeight ? `${textAreaRef.current.clientHeight}px` : '100px', // Accessing height
                         fondoColor : backgroundColor , 
                         textoColor : textColor
                       }
@@ -445,9 +433,6 @@ export function NodeInferior(props: any) {
                   }
                 });
                 setValue('nodes',nuevoArray)
-                console.log('valor de array ', nuevoArray)
-                console.log(getValues('nodes'))
-                console.log('----------------------------')
               }}
               className={isResizing ? "nodrag" : ""}
               style={{
