@@ -40,7 +40,7 @@ export default function DiagramaRender() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { formState, handleSubmit, control, register, getValues, setValue, unregister, reset } = useForm();
 
-  const urlBase = 'http://localhost:3003'
+  const urlBase = 'https://backend-games-almanza.onrender.com'//'http://localhost:3003'
   // store handling for input nodes
   const { text } = useInputNodeStore();
 
