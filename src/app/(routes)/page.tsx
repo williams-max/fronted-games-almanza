@@ -38,6 +38,7 @@ export default function DiagramaRender() {
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nombre, setNombre] = useState('')
   const { formState, handleSubmit, control, register, getValues, setValue, unregister, reset } = useForm();
 
   const urlBase = 'https://backend-games-almanza.onrender.com'//'http://localhost:3003'
@@ -74,6 +75,9 @@ export default function DiagramaRender() {
     try {
       const response = await axios.get(`${urlBase}/componente/8171272e-b31b-4c34-9220-9f535c958c5c`)
       if (response.data.datos.nodes) {
+        if (response.data.datos.nombre) {
+          setNombre(response.data.datos.nombre)
+        }
         const tempNodes = response.data.datos.nodes.map((objeto: any) => {
           if (objeto.hasOwnProperty('data')) {
             return {
@@ -310,6 +314,9 @@ export default function DiagramaRender() {
             Add node(Sección inferior)
           </Button>
           <Button onClick={async () => updateComonente()}>Save</Button>
+          <div style={ { color:'white'}}>
+           Nombre: { nombre}
+          </div>
         </div>
         <ReactFlow
           ref={ref}
