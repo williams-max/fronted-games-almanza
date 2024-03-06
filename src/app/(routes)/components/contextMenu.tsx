@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { useReactFlow } from "reactflow";
 
 import { Listbox, ListboxItem, cn } from "@nextui-org/react";
+import { v4 as uuidv4 } from 'uuid';
 
 interface ContextMenuProps {
   id: string;
@@ -27,7 +28,10 @@ export const ContextMenu = ({
   ...props
 }: ContextMenuProps) => {
   const { getNode, setNodes, addNodes, setEdges } = useReactFlow();
-
+  const getId = () => {
+    let getIdx = uuidv4();
+    return getIdx;
+  }
   const duplicateNode = useCallback(() => {
     const node = getNode(id);
 
@@ -39,8 +43,8 @@ export const ContextMenu = ({
       x: node.position.x + 100,
       y: node.position.y + 100,
     };
-
-    addNodes({ ...node, id: `${node.id}-copy`, position });
+    addNodes({ ...node, id: getId(), position });
+    // addNodes({ ...node, id: `${node.id}-copy`, position });
 
     setMenu(false);
   }, [id, getNode, addNodes, setMenu]);

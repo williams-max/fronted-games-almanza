@@ -30,7 +30,6 @@ let id = 0;
 
 const getId = () => {
   let getIdx = uuidv4();
-  console.log('get id', getIdx)
   return getIdx;
 }
 
