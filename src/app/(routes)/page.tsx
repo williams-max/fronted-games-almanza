@@ -72,7 +72,7 @@ export default function DiagramaRender() {
 
   const loadData = async () => {
     try {
-      const response = await axios.get(`${urlBase}/componente/7171272e-b31b-4c34-9220-9f535c958c5c`)
+      const response = await axios.get(`${urlBase}/componente/8171272e-b31b-4c34-9220-9f535c958c5c`)
       if (response.data.datos.nodes) {
         const tempNodes = response.data.datos.nodes.map((objeto: any) => {
           if (objeto.hasOwnProperty('data')) {
@@ -135,7 +135,7 @@ export default function DiagramaRender() {
         }
       });
 
-      const response = await axios.put(`${urlBase}/componente/7171272e-b31b-4c34-9220-9f535c958c5c`, {
+      const response = await axios.put(`${urlBase}/componente/8171272e-b31b-4c34-9220-9f535c958c5c`, {
         nodes: nodesActualizados, // getValues('nodes'),
         edges: edges
       })
