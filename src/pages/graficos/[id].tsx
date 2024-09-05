@@ -319,7 +319,8 @@ export default function DiagramaRender() {
         const height = '100vh';
         console.log('entre lllllllllllllll')
         // Write our page content to the newly opened page
-        newWindow.document.write(
+        if(newWindow){
+          newWindow.document.write(
             `<html>
                 <head>
                     <title>React Flow PDF</title>
@@ -368,6 +369,7 @@ export default function DiagramaRender() {
                 </body>
             </html>`
         )
+        }
     } catch (error) {
         console.log(error);
     }
