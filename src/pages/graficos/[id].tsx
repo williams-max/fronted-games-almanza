@@ -18,12 +18,15 @@ import ReactFlow, {
 
 import "reactflow/dist/style.css";
 
-import { TextUpdaterNode, NodeCentral , NodeSuperior , NodeInferior } from "./components/customNode";
-import { ContextMenu } from "./components/contextMenu";
+import { TextUpdaterNode, NodeCentral , NodeSuperior , NodeInferior } from "../../app/(routes)/components/customNode";
+// import { TextUpdaterNode, NodeCentral , NodeSuperior , NodeInferior } from "./components/customNode";
+// import { ContextMenu } from "./components/contextMenu";
+import { ContextMenu } from "../../app/(routes)/components/contextMenu";
 import { v4 as uuidv4 } from 'uuid';
 
 import { useInputNodeStore } from "@/store/nodes-store";
 import axios from 'axios'
+import { useRouter } from 'next/router';
 
 let id = 0;
 //const getId = (type: string) => `${type}_node_${id++}`;
@@ -39,6 +42,11 @@ export default function DiagramaRender() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [nombre, setNombre] = useState('')
   const { formState, handleSubmit, control, register, getValues, setValue, unregister, reset } = useForm();
+
+  const router = useRouter();
+
+  const { id } = router.query;
+  console.log('impriendo ui ', id)
 
   const urlBase = 'https://backend-games-almanza.onrender.com'//'http://localhost:3003'
   // store handling for input nodes
@@ -72,7 +80,8 @@ export default function DiagramaRender() {
 
   const loadData = async () => {
     try {
-      const response = await axios.get(`${urlBase}/componente/7171272e-b31b-4c34-9220-9f535c958c5c`)
+      const { id } = router.query;
+      const response = await axios.get(`${urlBase}/componente/${id}`)
       if (response.data.datos.nodes) {
         if (response.data.datos.nombre) {
           setNombre(response.data.datos.nombre)
@@ -138,7 +147,8 @@ export default function DiagramaRender() {
         }
       });
 
-      const response = await axios.put(`${urlBase}/componente/7171272e-b31b-4c34-9220-9f535c958c5c`, {
+      const { id } = router.query;
+      const response = await axios.put(`${urlBase}/componente/${id}`, {
         nodes: nodesActualizados, // getValues('nodes'),
         edges: edges
       })
@@ -317,6 +327,7 @@ export default function DiagramaRender() {
            Nombre: { nombre}
           </div>
         </div>
+        <div style={{ width: '100vw', height: '100vh' }}>
         <ReactFlow
           ref={ref}
           className="validationflow"
@@ -346,6 +357,7 @@ export default function DiagramaRender() {
             />
           )}
         </ReactFlow>
+        </div>
       </div>
     </div>
   );
