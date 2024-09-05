@@ -33,7 +33,7 @@ export default function DiagramaRender() {
   }
 
   return (
-    <div style={{ width: '100%', padding: '16px' }}>
+    <div style={{ width: '100%'}}>
       <Typography variant="h6">Graficos</Typography>
 
       <Box mt={2}>

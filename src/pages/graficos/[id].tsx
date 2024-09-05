@@ -327,7 +327,7 @@ export default function DiagramaRender() {
            Nombre: { nombre}
           </div>
         </div>
-        <div style={{ width: '100vw', height: '100vh' }}>
+        <div style={{ width: '100%', height: '100vh' }}>
         <ReactFlow
           ref={ref}
           className="validationflow"
