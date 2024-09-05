@@ -302,7 +302,8 @@ export default function DiagramaRender() {
         // Again having issues without small sleep. Should be removable though.
         // await sleep(1000);
         // Get the DOM element
-        let elements = document.getElementsByClassName('react-flow-exporting')[0];
+        // let elements = document.getElementsByClassName('react-flow-exporting')[0];
+        let elements = document.getElementsByClassName('react-flow-exporting')[0] as HTMLElement;
         // Convert to SVG
         const svgContent = await htmlToImage.toSvg(elements);
         const svgElement =  await decodeURIComponent(svgContent.replace("data:image/svg+xml;charset=utf-8,", "").trim());
