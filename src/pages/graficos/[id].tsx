@@ -18,17 +18,17 @@ import ReactFlow, {
 
 import "reactflow/dist/style.css";
 
-import { TextUpdaterNode, NodeCentral , NodeSuperior , NodeInferior } from "../../app/(routes)/components/customNode";
+import { TextUpdaterNode, NodeCentral, NodeSuperior, NodeInferior } from "../../app/(routes)/components/customNode";
 // import { TextUpdaterNode, NodeCentral , NodeSuperior , NodeInferior } from "./components/customNode";
 // import { ContextMenu } from "./components/contextMenu";
 import { ContextMenu } from "../../app/(routes)/components/contextMenu";
+import * as htmlToImage from 'html-to-image';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useInputNodeStore } from "@/store/nodes-store";
 import axios from 'axios'
 import { useRouter } from 'next/router';
 
-let id = 0;
 //const getId = (type: string) => `${type}_node_${id++}`;
 
 const getId = () => {
@@ -65,7 +65,7 @@ export default function DiagramaRender() {
           id: getId(), // getId(type),
           backgroundColor: '#0064A5',
           textColor: '#ffffff',
-          data: { content: '', methods: { register, control, getValues, setValue: setValue } ,height:'200px' },
+          data: { content: '', methods: { register, control, getValues, setValue: setValue }, height: '200px' },
           position: { x: 0, y: 0 },
           type: type,
         },
@@ -211,7 +211,7 @@ export default function DiagramaRender() {
   };
 
   // in order to add new nodes, we need to add them to the nodeTypes object
-  const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode, nodeCentral: NodeCentral , nodeSuperior: NodeSuperior , nodeInferior:NodeInferior }), []);
+  const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode, nodeCentral: NodeCentral, nodeSuperior: NodeSuperior, nodeInferior: NodeInferior }), []);
 
   // open node context menu
   const onNodeContextMenu = useCallback(
@@ -275,18 +275,102 @@ export default function DiagramaRender() {
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
 
 
-  function descargarJSON(data: any) {
-    const jsonString = JSON.stringify(data);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'data.json';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  }
+  async function exportDiagram() {
+    try {
+        // Needs these sleep to make sure flow is completely rendered
+        // await sleep(1000);
+        // Remove animation from edges since animation wont be shown in pdf
+        console.log('imprir ref ', ref)
+        const reactFlowInstance = ref.current
+        if (reactFlowInstance) {
+            setEdges((edges: any) =>
+                edges.map((edge: any) => {
+                    if (edge) {
+                        edge.animated = false;
+                        edge.markerEnd = {
+                            type: 'arrow',
+                            width: 15,
+                            height: 15
+                        };
+                    }
+
+                    return edge;
+                })
+            );
+           //  reactFlowInstance.fitView();
+        }
+        // Again having issues without small sleep. Should be removable though.
+        // await sleep(1000);
+        // Get the DOM element
+        let elements = document.getElementsByClassName('react-flow-exporting')[0];
+        // Convert to SVG
+        const svgContent = await htmlToImage.toSvg(elements);
+        const svgElement =  await decodeURIComponent(svgContent.replace("data:image/svg+xml;charset=utf-8,", "").trim());
+        // Open new window
+        const newWindow = open();
+        // Safer version of document.write
+        document.write=function(s){
+            var scripts = document.getElementsByTagName('script');
+            var lastScript = scripts[scripts.length-1];
+            lastScript.insertAdjacentHTML("beforebegin", s);
+        }
+        const width= '100%';
+        const height = '100vh';
+        console.log('entre lllllllllllllll')
+        // Write our page content to the newly opened page
+        newWindow.document.write(
+            `<html>
+                <head>
+                    <title>React Flow PDF</title>
+                    <style>
+                        body {
+                            width: ${width};
+                            height: ${height};
+                            margin: auto
+                        }
+                        .container {
+                            background: #393D43;
+                            text-align: center;
+                            height: 100%;
+                            width: 100%;
+                        }
+                        .svg-container text {
+                          font-weight: bold;
+                        }
+                        
+                        @page {
+                            size: 29.7cm, 21cm
+                            margin:0 !important;
+                        }
+                        @media print {
+                            * {
+                                -webkit-print-color-adjust: exact !important;
+                                color-adjust: exact !important;
+                            }
+                            .container {
+                                background: none;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='svg-container'>
+                            ${svgElement}
+                        </div>
+                        
+                        <script>
+                            document.close();
+                            window.print();
+                        </script>
+                    </div>
+                </body>
+            </html>`
+        )
+    } catch (error) {
+        console.log(error);
+    }
+}
 
   return (
     <div className="flex flex-col items-start justify-center" style={{ backgroundColor: '#203E52' }}>
@@ -323,40 +407,41 @@ export default function DiagramaRender() {
             Add node(Sección inferior)
           </Button>
           <Button onClick={async () => updateComonente()}>Save</Button>
-          <div style={ { color:'white'}}>
-           Nombre: { nombre}
+          <Button onClick={async () => exportDiagram()}>export a pdf</Button>
+          <div style={{ color: 'white' }}>
+            Nombre: {nombre}
           </div>
         </div>
         <div style={{ width: '100%', height: '100vh' }}>
-        <ReactFlow
-          ref={ref}
-          className="validationflow"
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          isValidConnection={isValidConnection}
-          onPaneClick={onPaneClick}
-          onNodeContextMenu={onNodeContextMenu}
-          onEdgeContextMenu={onEdgeContextMenu}
-          onPaneContextMenu={onContextMenu}
-          minZoom = {0.05}
-          fitView
-        >
-          <Background />
-          <Controls />
-          <MiniMap />
-          {menu && (
-            <ContextMenu
-              setMenu={setMenu}
-              addNewNode={addNewNode}
-              onClick={onPaneClick}
-              {...menu}
-            />
-          )}
-        </ReactFlow>
+          <ReactFlow
+            ref={ref}
+            className="react-flow-exporting"
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            isValidConnection={isValidConnection}
+            onPaneClick={onPaneClick}
+            onNodeContextMenu={onNodeContextMenu}
+            onEdgeContextMenu={onEdgeContextMenu}
+            onPaneContextMenu={onContextMenu}
+            minZoom={0.05}
+            fitView
+          >
+            <Background />
+            <Controls />
+            <MiniMap />
+            {menu && (
+              <ContextMenu
+                setMenu={setMenu}
+                addNewNode={addNewNode}
+                onClick={onPaneClick}
+                {...menu}
+              />
+            )}
+          </ReactFlow>
         </div>
       </div>
     </div>

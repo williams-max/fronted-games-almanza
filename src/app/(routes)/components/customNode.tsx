@@ -27,6 +27,7 @@ export function TextUpdaterNode() {
           placeholder="Text..."
           value={text}
           onChange={(e) => onChange(e)}
+          style={{ fontWeight: 'bold' }}
           className=" px-4 py-2 rounded-lg outline-none"
         />
         <Handle type="target" position={Position.Bottom} id="input_target" />
