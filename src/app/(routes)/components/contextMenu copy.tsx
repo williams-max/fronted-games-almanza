@@ -3,7 +3,6 @@ import { useCallback } from "react";
 import { useReactFlow } from "reactflow";
 
 import { Listbox, ListboxItem, cn } from "@nextui-org/react";
-import { Menu, MenuItem } from "@mui/material";
 import { v4 as uuidv4 } from 'uuid';
 
 interface ContextMenuProps {
@@ -96,18 +95,25 @@ export const ContextMenu = ({
   };
 
   return (
-    <Menu
-      open={Boolean(top && left)}
-      onClose={() => setMenu(false)}
-      anchorReference="anchorPosition"
-      anchorPosition={{ top: top || 0, left: left || 0 }}
+    <div
+      style={{ top, left, right, bottom }}
+      className="absolute bg-background z-10 w-full max-w-[260px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100"
       {...props}
     >
-      {actions[type].map((action, index) => (
-        <MenuItem key={index} onClick={action.onClick}>
-          {action.label}
-        </MenuItem>
-      ))}
-    </Menu>
+      <Listbox variant="faded" aria-label="Context menu">
+        {actions[type].map((action, id) => (
+          <ListboxItem
+            showDivider={actions[type].length - (id + 1) === 1}
+            key={action.label}
+            onClick={action.onClick}
+            color={action?.color ? (action.color as "danger") : "default"}
+            className={cn(action.color === "danger" && "text-danger-500")}
+            textValue={action.label}
+          >
+            {action.label}
+          </ListboxItem>
+        ))}
+      </Listbox>
+    </div>
   );
 };
